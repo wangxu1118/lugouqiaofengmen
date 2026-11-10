@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>金通阳光苑小区封门堵路问题 · 时间发展与关系图</title>
+<style>
+  @page { size: A3 landscape; margin: 10mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 34px 44px;
+    background: #eef1f5;
+    color: #1f2937;
+    font-family: "Microsoft YaHei", "PingFang SC", "Source Han Sans SC", "Noto Sans CJK SC", sans-serif;
+    font-size: 13px; line-height: 1.72;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .page { max-width: 1520px; margin: 0 auto; background: #fff; padding: 34px 40px 40px; border-radius: 6px; box-shadow: 0 2px 18px rgba(15,23,42,.10); }
+
+  /* ---------- 页头 ---------- */
+  header { border-bottom: 3px solid #1e3a5f; padding-bottom: 16px; margin-bottom: 18px; }
+  h1 { margin: 0 0 6px; font-size: 25px; letter-spacing: .5px; color: #14213d; font-weight: 700; }
+  .sub { color: #4b5c70; font-size: 13.5px; margin: 0; }
+  .meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px 10px; font-size: 12px; color: #5b6b7c; }
+  .meta span { background: #f1f5f9; border: 1px solid #dbe3ec; padding: 2px 9px; border-radius: 3px; }
+
+  /* ---------- 图例 ---------- */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 10px 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; margin-bottom: 22px; font-size: 12px; color: #475569; }
+  .legend b { color: #334155; font-weight: 600; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; }
+  .chip i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  .c-prop { background: #b45309; } .c-street { background: #1e40af; }
+  .c-owner { background: #0f766e; } .c-dept { background: #6d28d9; }
+  .c-event { background: #64748b; } .c-base { background: #0f172a; }
+
+  /* ---------- 时间轴 ---------- */
+  .tl { position: relative; }
+  .tl::before {
+    content: ""; position: absolute; left: 168px; top: 8px; bottom: 34px;
+    width: 3px; background: linear-gradient(#c7d2e0, #c7d2e0 92%, #e2e8f0);
+    border-radius: 2px;
+  }
+  .node { display: grid; grid-template-columns: 140px 56px 1fr; align-items: start; margin-bottom: 4px; position: relative; }
+
+  .tl-date { text-align: right; padding-top: 16px; padding-right: 6px; }
+  .tl-date .y { display: block; font-size: 12px; color: #8395a9; letter-spacing: .5px; }
+  .tl-date .m { display: block; font-size: 15px; font-weight: 700; color: #1e3a5f; line-height: 1.35; }
+
+  .tl-dot { display: flex; justify-content: center; padding-top: 20px; position: relative; z-index: 2; }
+  .tl-dot i { width: 15px; height: 15px; border-radius: 50%; background: #fff; border: 4px solid #94a3b8; display: block; }
+
+  .arrow { width: 56px; margin-left: 140px; display: flex; justify-content: center; align-items: center; padding: 4px 0 6px; position: relative; z-index: 3; }
+  .arrow::after { content: ""; width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 9px solid #a9b8ca; display: block; }
+
+  .tl-card {
+    background: #fff; border: 1px solid #dfe6ee; border-left: 5px solid #94a3b8;
+    border-radius: 5px; padding: 12px 16px 12px; margin: 0 0 6px 0;
+    box-shadow: 0 1px 3px rgba(15,23,42,.05);
+  }
+  .tl-card.owner { border-left-color: #0f766e; background: #fbfefd; }
+  .tl-card.street { border-left-color: #1e40af; background: #fbfcff; }
+  .tl-card.prop { border-left-color: #b45309; background: #fffdf9; }
+  .tl-card.dept { border-left-color: #6d28d9; background: #fdfcff; }
+  .tl-card.event { border-left-color: #64748b; background: #fbfcfd; }
+  .tl-card.base { border-left: 5px dashed #0f172a; background: #f8fafc; }
+  .tl-card.owner .tl-dot i { border-color: #0f766e; }
+
+  .node.owner .tl-dot i { border-color: #0f766e; }
+  .node.street .tl-dot i { border-color: #1e40af; }
+  .node.prop .tl-dot i { border-color: #b45309; }
+  .node.dept .tl-dot i { border-color: #6d28d9; }
+  .node.event .tl-dot i { border-color: #64748b; }
+  .node.base .tl-dot i { border-color: #0f172a; }
+
+  .no { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 11px; background: #eef2f7; border: 1px solid #d5dfea; color: #4f6379; font-size: 11px; font-weight: 700; margin-right: 9px; letter-spacing: 0; vertical-align: -5px; }
+  .tag { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 3px; color: #fff; margin-right: 8px; vertical-align: 1px; font-weight: 600; letter-spacing: .3px; }
+  .tag.owner { background: #0f766e; } .tag.street { background: #1e40af; }
+  .tag.prop { background: #b45309; } .tag.dept { background: #6d28d9; }
+  .tag.event { background: #64748b; } .tag.base { background: #0f172a; }
+
+  .place { font-size: 12px; color: #64748b; }
+  .place::before { content: "◎ "; }
+
+  .h { font-size: 15px; font-weight: 700; color: #17212b; margin: 7px 0 6px; line-height: 1.5; }
+
+  .row { display: grid; grid-template-columns: 74px 1fr; gap: 8px; font-size: 13px; margin: 3px 0; }
+  .row .k { color: #7c8a9a; font-size: 12px; padding-top: 1px; }
+  .row .v { color: #22303f; }
+
+  blockquote {
+    margin: 7px 0 4px; padding: 7px 12px; background: #f6f8fa;
+    border-left: 3px solid #c3cedd; border-radius: 0 3px 3px 0;
+    font-size: 12.5px; color: #3d4d5f; line-height: 1.75;
+  }
+  blockquote b { color: #14213d; }
+  blockquote .spk { color: #1e40af; font-weight: 600; }
+  blockquote.warn { background: #fdf4f2; border-left-color: #c0392b; }
+  blockquote.warn .spk { color: #b42318; }
+
+  .src { font-size: 11.5px; color: #8494a6; margin: 5px 0 0; letter-spacing: .2px; }
+  .src::before { content: "出处 · "; color: #a0aec0; }
+
+  .via { margin-top: 7px; font-size: 12px; color: #4a5b6e; background: #eef4fb; border: 1px dashed #b9cde4; border-radius: 3px; padding: 4px 10px; }
+  .via::before { content: "→ 关系 "; color: #2f6ba8; font-weight: 700; }
+  .via.red { background: #fdf1ef; border-color: #e8bfb8; color: #8a2b1e; }
+  .via.red::before { color: #b42318; }
+
+  /* ---------- 重点提示框 ---------- */
+  .alert { margin: 10px 0 4px; padding: 11px 15px; background: #fff5f3; border: 1px solid #e3b6ac; border-left: 5px solid #b42318; border-radius: 3px; font-size: 12.5px; color: #6b2b20; line-height: 1.8; }
+  .alert b { color: #8c1d10; }
+  .alert .t { display: block; font-weight: 700; color: #b42318; margin-bottom: 5px; font-size: 12.8px; letter-spacing: .3px; }
+
+  /* ---------- 分段标题 ---------- */
+  h2.sec { font-size: 17px; color: #14213d; margin: 34px 0 4px; padding-left: 11px; border-left: 5px solid #1e3a5f; letter-spacing: .4px; }
+  .secnote { color: #64748b; font-size: 12.5px; margin: 4px 0 14px; padding-left: 16px; }
+
+  /* ---------- 一图速览 ---------- */
+  .overview { border: 1px solid #dbe3ec; border-radius: 5px; overflow: hidden; margin: 8px 0 4px; }
+  .ov-row { display: grid; grid-template-columns: 92px 14px 158px 1fr; gap: 12px; align-items: center; padding: 6px 16px; border-bottom: 1px solid #eef2f7; font-size: 12.5px; }
+  .ov-row:last-child { border-bottom: 0; }
+  .ov-row:nth-child(even) { background: #fafbfd; }
+  .ov-t { color: #1e3a5f; font-weight: 700; font-size: 12px; text-align: right; white-space: nowrap; }
+  .ov-dot { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .ov-who { font-weight: 600; font-size: 12.5px; }
+  .ov-e { color: #33414f; }
+
+  /* ---------- 理由轮换矩阵 ---------- */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th { background: #1e3a5f; color: #fff; font-weight: 600; padding: 9px 10px; text-align: left; font-size: 12.5px; letter-spacing: .3px; }
+  tbody td { border: 1px solid #dde4ed; padding: 9px 10px; vertical-align: top; line-height: 1.68; }
+  tbody tr:nth-child(even) td { background: #fafbfd; }
+  td.t { white-space: nowrap; color: #1e3a5f; font-weight: 600; }
+  td.claim { color: #22303f; }
+  td.resp { color: #7a2b1f; }
+  .pill { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 9px; background: #e8eef7; color: #33506f; margin-right: 5px; }
+
+  /* ---------- 自认卡 ---------- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+  .conf { border: 1px solid #dde4ed; border-top: 3px solid #0f766e; border-radius: 4px; padding: 11px 14px; background: #fbfefd; }
+  .conf .who { font-size: 12px; color: #0f766e; font-weight: 700; }
+  .conf .q { font-size: 12.5px; color: #22303f; margin: 4px 0; }
+  .conf .s { font-size: 11.5px; color: #8494a6; }
+
+  /* ---------- 语音播放 ---------- */
+  .aud { margin-top: 7px; display: flex; flex-wrap: wrap; gap: 6px 10px; }
+  .spk-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 11px 3px 8px; border: 1px solid #b9cde4; border-radius: 15px;
+    background: #eef4fb; color: #1e40af; font-size: 11.5px; font-family: inherit;
+    line-height: 1.5; cursor: pointer; transition: background .15s, border-color .15s, color .15s;
+    vertical-align: middle;
+  }
+  .spk-btn:hover { background: #e0ecfb; border-color: #8fb2dd; }
+  .spk-btn:focus-visible { outline: 2px solid #1e40af; outline-offset: 2px; }
+  .spk-btn .ico { width: 13px; height: 13px; display: block; flex: none; }
+  .spk-btn .i-pause { display: none; }
+  .spk-btn .dur { color: #7c8a9a; font-size: 10.5px; }
+  .spk-btn.playing { background: #1e40af; border-color: #1e40af; color: #fff; }
+  .spk-btn.playing .i-play { display: none; }
+  .spk-btn.playing .i-pause { display: block; }
+  .spk-btn.playing .dur { color: #d7e4f9; }
+  .spk-btn.err { background: #fdf1ef; border-color: #e8bfb8; color: #b42318; }
+  .aud-hint { display: inline-flex; align-items: center; gap: 5px; color: #1e40af; }
+  .aud-note { margin-top: 10px; font-size: 11.5px; color: #8494a6; }
+
+  /* ---------- 页脚 ---------- */
+  footer { margin-top: 32px; padding: 16px 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 12px; color: #4b5c70; line-height: 1.85; }
+  footer h3 { font-size: 13.5px; color: #14213d; margin: 0 0 8px; }
+  footer ol { margin: 0 0 10px; padding-left: 20px; }
+  footer .sep { height: 1px; background: #e2e8f0; margin: 12px 0; }
+  .em { color: #b42318; font-weight: 600; }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; max-width: none; padding: 0; margin: 0; }
+    .node, .conf, tr, .legend, .tl-card { break-inside: avoid; page-break-inside: avoid; }
+    h2.sec { break-after: avoid; page-break-after: avoid; }
+    .secnote { break-after: avoid; page-break-after: avoid; }
+    .aud, .aud-hint { display: none !important; }
+    footer { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>金通阳光苑小区（东区）封门堵路问题 · 时间发展与关系图</h1>
+    <p class="sub">按时间顺序排列的事件链，标注每个节点的地点、行为主体、行为内容与原始表述出处；附“同一处铁门理由轮换”对照。</p>
+    <div class="meta">
+      <span>编制日期：2026年11月5日</span>
+      <span>性质：内部梳理图，随举报件附件使用</span>
+      <span>体例：序号【NN】＝录音段号，其后为录音内时间点（分:秒）</span>
+      <span>核对基准：录音转写稿（57段、约24.1万字）与录音深度分析底稿</span>
+    </div>
+  </header>
+
+  <div class="legend">
+    <b>主体标识：</b>
+    <span class="chip"><i class="c-base"></i>规划基线</span>
+    <span class="chip"><i class="c-prop"></i>物业（实施方）</span>
+    <span class="chip"><i class="c-street"></i>街道及社区</span>
+    <span class="chip"><i class="c-owner"></i>业主</span>
+    <span class="chip"><i class="c-dept"></i>第三方部门核实（派出所／消防／规自委）</span>
+    <span class="chip"><i class="c-event"></i>外部事件</span>
+    <span style="margin-left:auto;color:#8494a6">纵向箭头＝时间推进　｜　“→ 关系”框＝该节点与前后节点的对应或反证关系</span>
+  </div>
+
+  <div class="legend" style="margin-top:-12px;border-style:dashed;background:#f7fbff">
+    <span class="aud-hint">
+      <svg class="ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+      带喇叭标记的引文，点击即可播放该段录音原声
+    </span>
+    <span style="color:#8494a6">音频文件位于本文件同目录的 <b>audio</b> 文件夹，需与 HTML 一并拷贝；打印版（PDF）不含音频。</span>
+  </div>
+
+  <h2 class="sec" style="margin-top:8px">〇、一图速览（全部节点，一页看完）</h2>
+  <p class="secnote">左侧为时间，圆点颜色表示行为主体，右侧为该节点的一句话内容。详细原话、地点与出处见下一节。</p>
+
+  <div class="overview">
+    <div class="ov-row"><span class="ov-t">基线</span><i class="ov-dot" style="background:#0f172a"></i><span class="ov-who" style="color:#0f172a">规划档案</span><span class="ov-e">经审定设计图：正式出入口两处、连通口三处、中央为疏散场地，<b>图中无铁门、无车棚</b></span></div>
+    <div class="ov-row"><span class="ov-t">2023.8.13</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 执法队</span><span class="ov-e">称该门早在2023年8月13日已存在并开放通行（业主否认，<i>待核</i>）</span></div>
+    <div class="ov-row"><span class="ov-t">2024 上半年</span><i class="ov-dot" style="background:#b45309"></i><span class="ov-who" style="color:#b45309">物业</span><span class="ov-e">该处增设大门一处，呈开放状态、不影响通行，事前事后均无通告</span></div>
+    <div class="ov-row"><span class="ov-t">2024.10.28</span><i class="ov-dot" style="background:#64748b"></i><span class="ov-who" style="color:#64748b">外部事件</span><span class="ov-e">海淀区持刀伤人案，5人受伤含3名未成年人（后被街道援引为封门理由）</span></div>
+    <div class="ov-row"><span class="ov-t">2024.10</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 12345</span><span class="ov-e">答复称“经教育局属地派出所协调物业封闭”——<b>派出所否认</b></span></div>
+    <div class="ov-row"><span class="ov-t">2024.12 前后</span><i class="ov-dot" style="background:#b45309"></i><span class="ov-who" style="color:#b45309">物业</span><span class="ov-e">门被关闭上锁，仅留单人小门；中央公共疏散场地改建为电动车车棚</span></div>
+    <div class="ov-row"><span class="ov-t">2024.12 起</span><i class="ov-dot" style="background:#0f766e"></i><span class="ov-who" style="color:#0f766e">业主</span><span class="ov-e">反复110报警、12345投诉；门曾开启数日，但通道已提前安装<b>地桩</b>，车辆仍不能通行，其后门又被关闭</span></div>
+    <div class="ov-row"><span class="ov-t">2025.1.10</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 产业办</span><span class="ov-e">问“为什么封门堵路”，答“5号楼产权归开发商”——答非所问</span></div>
+    <div class="ov-row"><span class="ov-t">2025.1.17</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 工作组</span><span class="ov-e">同一通电话内：先说因海淀砍人事件封门，后说<b>“那块不是消防通道”</b>——<b style="color:#b42318">以安全为名的措施，实际制造了更大的消防风险</b></span></div>
+    <div class="ov-row"><span class="ov-t">2025.1.19</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 工作组负责人</span><span class="ov-e"><b>未联系投诉人本人</b>，从第三方（物业台账）取得其家人电话，致电施压<b>并上门</b></span></div>
+    <div class="ov-row"><span class="ov-t">2025.1.20</span><i class="ov-dot" style="background:#6d28d9"></i><span class="ov-who" style="color:#6d28d9">规自委丰台分局</span><span class="ov-e">明确答复：被封闭道路在红线内，<b>属小区内部配套道路，不属其他单位所有</b></span></div>
+    <div class="ov-row"><span class="ov-t">2025.2.20</span><i class="ov-dot" style="background:#6d28d9"></i><span class="ov-who" style="color:#6d28d9">消防救援机构</span><span class="ov-e">图纸上没有“消防车道”四个字；要求取消标牌、<b>大门不得上锁</b></span></div>
+    <div class="ov-row"><span class="ov-t">2025.3.21</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 会议</span><span class="ov-e">称拆桩后“消防车就进不来”；把锁与关交居民表态“要觉得锁咱就再锁上”</span></div>
+    <div class="ov-row"><span class="ov-t">2025.3.22</span><i class="ov-dot" style="background:#1e40af"></i><span class="ov-who" style="color:#1e40af">街道 · 会议</span><span class="ov-e">承诺开门、安门禁、“这周就干”；同时自认无消防通道规划图、无大门规划图</span></div>
+    <div class="ov-row"><span class="ov-t">2025.7</span><i class="ov-dot" style="background:#b45309"></i><span class="ov-who" style="color:#b45309">物业</span><span class="ov-e">门未开、门禁未安，业主车辆仍被道闸与收费环节限制——<b>承诺未兑现</b></span></div>
+    <div class="ov-row"><span class="ov-t">至今</span><i class="ov-dot" style="background:#6d28d9"></i><span class="ov-who" style="color:#6d28d9">12345／执法队</span><span class="ov-e">12345答复<b>认定该门为违建</b>；属地执法队口头“不给认违建”——<b style="color:#b42318">至今无一纸书面认定文书</b>（见第四节）</span></div>
+  </div>
+
+  <h2 class="sec">一、事件链（按时间顺序）</h2>
+  <p class="secnote">图中所列“谁说了什么”，均为录音或12345工单原话摘录，可按段号与时间点回放核对；凡属单方主张、尚待核实的，已在节点内标明。</p>
+
+  <div class="tl">
+
+    <!-- 基线 -->
+    <article class="node base">
+      <div class="tl-date"><span class="y">基线</span><span class="m">规划档案</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card base">
+          <div><span class="no">0</span><span class="tag base">基线</span><span class="place">小区建设工程设计方案总平面图（行政机关存档）</span></div>
+          <h2 class="h">经审定的规划：两个正式出入口、三处连通口、中央为疏散场地，图中没有铁门、没有车棚</h2>
+          <div class="row"><div class="k">事项</div><div class="v">小区规划设置正式出入口两处；环形消防车道与其他车道的连通口共三处；小区正中央场地为公共疏散场地。图纸中不存在铁门，亦不存在电动自行车充电车棚。</div></div>
+          <div class="row"><div class="k">取得方式</div><div class="v">业主于2025年依法向住房和城乡建设主管部门申请调取，来源为行政机关存档，非开发商或物业提供。</div></div>
+          <div class="row"><div class="k">要点</div><div class="v">该图调取时间晚于2024年12月的建设行为，图纸中仍无上述两处构筑物——档案内不存在与之对应的规划许可及总平面图变更记录。</div></div>
+          <p class="src">附件二（调取凭证及图纸）</p>
+          <p class="via">后续所有节点，均需以此图为“应有状态”的比对基准：同一小区其余两区对外连通口均为三处，唯东区封堵后仅余一处。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 1 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2023年</span><span class="m">8月13日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">1</span><span class="tag street">街道</span><span class="place">小区中部公共道路</span></div>
+          <h2 class="h">街道执法队主张：该门早在2023年8月13日即存在，且开放通行</h2>
+          <div class="row"><div class="k">谁</div><div class="v">丰台区卢沟桥街道综合行政执法队</div></div>
+          <div class="row"><div class="k">说了什么</div><div class="v">执法队答复称该门“早在2023年8月13日就已存在，然后也开放通行”。</div></div>
+          <blockquote>
+            <span class="spk">执法队：</span>“这个门儿早在2023年8月13日就已存在，然后也开放通行。”<br>
+            <span class="spk">业主（当场否认）：</span>“24年12月初，他封的这个门上的锁，在这之前我没见过那儿有门。”
+          </blockquote>
+          <p class="src">【36】与丰台区-卢沟桥街道-执法队通话，00:00；业主回应见同段 13:48</p>
+          <div class="aud"><button class="spk-btn" type="button" data-src="audio/b2-zhifadui-2023.m4a">
+            <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <span>播放原声</span><span class="dur">00:00–00:22</span>
+          </button></div>
+          <p class="via red">该日期为执法队单方主张，与业主陈述直接冲突，且与举报信所载“2024年上半年增设大门”不一致。此项须以2023—2024年现场照片、施工与验收档案核实，<b>不宜作为已证事实使用</b>。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 2 -->
+    <article class="node prop">
+      <div class="tl-date"><span class="y">2024年</span><span class="m">上半年</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card prop">
+          <div><span class="no">2</span><span class="tag prop">物业</span><span class="place">小区中部公共道路</span></div>
+          <h2 class="h">该位置增设大门一处；设置后呈开放状态，不影响通行，事前事后均无通告</h2>
+          <div class="row"><div class="k">谁</div><div class="v">北京金地格林物业管理有限公司（实施方）</div></div>
+          <div class="row"><div class="k">做了什么</div><div class="v">在小区中部公共道路位置增设大门一处。门设而常开，业主通行未受影响；事先及当时未张贴任何通告、未作任何告知。</div></div>
+          <blockquote>业主陈述：该阶段门处于开放状态，业主“一直在正常走”，因此并未意识到该处将形成封闭。</blockquote>
+          <p class="src">现场照片；业主陈述；与附件二设计图比对</p>
+          <p class="via">此节点的意义在于：门体先于“封闭”而存在，<b>建门与封门是两个可分离的行为</b>。后文所有“要求封门”的说法，指向的都是封闭行为，而非门体的存在。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 3 -->
+    <article class="node event">
+      <div class="tl-date"><span class="y">2024年</span><span class="m">10月28日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card event">
+          <div><span class="no">3</span><span class="tag event">外部事件</span><span class="place">海淀区万泉庄路与万柳中路交叉口附近</span></div>
+          <h2 class="h">海淀区发生持刀伤人案，5人受伤，其中3名为未成年人</h2>
+          <div class="row"><div class="k">时间</div><div class="v">2024年10月28日15时20分许</div></div>
+          <div class="row"><div class="k">来源</div><div class="v">北京市公安局海淀分局警情通报。案发地在中关村第三小学北校区周边。</div></div>
+          <div class="row"><div class="k">与本小区距离</div><div class="v">分属不同行政区、不同学区、不同派出所辖区，两地相距约二十公里。</div></div>
+          <p class="src">北京市公安局海淀分局通报，2024年10月28日；经澎湃新闻、光明网、央广网同日转载</p>
+          <p class="via red">此节点本身与本小区无关。它之所以进入本图，是因为<b>十余天后被街道援引为封门理由</b>（见节点8），而援引时未说明任何关联依据。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 4 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2024年</span><span class="m">10月<br><span style="font-size:11px;font-weight:400;color:#8395a9">（答复所述）</span></span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">4</span><span class="tag street">街道</span><span class="place">12345市民热线答复（书面）</span></div>
+          <h2 class="h">理由第一版：称“经丰台区教育局属地派出所协调物业将该区域实施封闭式管理”</h2>
+          <div class="row"><div class="k">谁</div><div class="v">卢沟桥街道，经12345接线员照读的书面答复</div></div>
+          <blockquote>
+            <span class="spk">街道答复原文：</span>“2024年10月，经丰台区教育局属地派出所协调物业将该区域实施封闭式管理，工作人员已于1月18日再次向来电市民反馈办理结果，市民对此情况表示已知晓。”<br>
+            <span class="spk">业主当场否认：</span>“他们一个字儿都没跟我说，我啥都不知道。二呢……我与派出所联系了，派出所并不知道这件事儿。”
+          </blockquote>
+          <p class="src">【20】说内部路是派出所封的.m4a，00:10；业主否认见同段 00:35</p>
+          <p class="via red">被援引方随即否认——岳各庄派出所副所长李伟实名答复“我们也没有权利说把这路给人封了”，并同意被引用（详见第二节对照表第一行）。<b>答复中所称“已打电话核实”的过程，因此无从成立。</b></p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 5 -->
+    <article class="node prop">
+      <div class="tl-date"><span class="y">2024年</span><span class="m">12月前后</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card prop">
+          <div><span class="no">5</span><span class="tag prop">物业</span><span class="place">小区中部公共道路 ＋ 小区正中央公共疏散场地</span></div>
+          <h2 class="h">门被关闭，仅留单人通行小门；同期中央疏散场地被改建为电动车充电车棚</h2>
+          <div class="row"><div class="k">谁</div><div class="v">物业（实施）；无业主表决、无公告、无规划许可记录</div></div>
+          <div class="row"><div class="k">做了什么</div><div class="v">① 该门关闭上锁，仅留一处仅供单人通行的小门；② 小区正中央公共疏散场地改建为电动自行车充电车棚。</div></div>
+          <blockquote>两处建设均未出现在经审定的总平面图中。自本节点起，小区对外连通口由三处减为一处，低于 GB 50016—2014（2018年版）第7.1.9条“环形消防车道至少应有两处与其他车道连通”的下限。</blockquote>
+          <p class="src">现场照片（附件三、四、五）；附件二设计图比对；GB 50016 第7.1.8、7.1.9条</p>
+          <p class="via">同一时点产生两个后果：<b>消防车通道被压缩</b>与<b>疏散场地被占用</b>。二者叠加，构成本小区最需评估的复合风险。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 6 -->
+    <article class="node owner">
+      <div class="tl-date"><span class="y">2024年</span><span class="m">12月起</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card owner">
+          <div><span class="no">6</span><span class="tag owner">业主</span><span class="place">物业前台／110／12345／街道及社区</span></div>
+          <h2 class="h">业主开始反复主张权利；门虽开启数日，但通道已提前安装地桩，车辆仍不能通行，其后又被关闭</h2>
+          <div class="row"><div class="k">谁</div><div class="v">小区业主（多人）</div></div>
+          <div class="row"><div class="k">做了什么</div><div class="v">向物业当面提出异议；多次拨打110报警反映封门堵路；多次拨打12345投诉；向属地街道及社区当面反映。上述渠道均未使状态发生实质改变。</div></div>
+          <div class="row"><div class="k">关键情节</div><div class="v">该门曾因业主投诉而开启数日，其后由物业人员再次关闭。<b>开启数日这一事实表明：该门具备随时开启的条件，再次封闭是一种主动选择，而非技术限制。</b></div></div>
+          <div class="row"><div class="k">情节二</div><div class="v">在临时开门的数日内，通道上已<b>提前安装地桩</b>。门虽开启，车辆仍被地桩拦住，不能通行——形成“门开而路不通”的状态。</div></div>
+          <blockquote>地桩的存在说明：“开门”与“恢复通行”被刻意分离。业主看到门已打开，车辆却依旧进不来。<br>2025年3月21日会议上所称“如果我拆那个桩子，有可能消防车就进不来”，所指即此处地桩。</blockquote>
+          <p class="src">110通话记录及接警回执（附件七）；12345工单编号（附件八）；当面反映记录（附件十）；地桩现场照片（附件三）</p>
+          <p class="via red">“开门”与“清障”是两件事：门可以开，桩子不拆，车仍然进不来。<b>这一细节使“已开门”的答复在事实上不成立。</b>宣布再次关闭决定的场合，见节点12、13。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 7 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">1月10日<br><span style="font-size:11px;font-weight:400;color:#8395a9">16:36</span></span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">7</span><span class="tag street">街道</span><span class="place">电话答复（12345工单留痕）</span></div>
+          <h2 class="h">理由第二版：以“5号楼产权归开发商”答复“为什么封门堵路”</h2>
+          <div class="row"><div class="k">谁</div><div class="v">卢沟桥街道产业办工作人员</div></div>
+          <blockquote>
+            <span class="spk">街道答复原文：</span>“卢沟桥街道产业办工作人员于1月10日16:36，与市民电话联系，市民反映的情况为金通阳光苑小区5号楼建设性质问题……产权方为小区开发商。”<br>
+            <span class="spk">业主：</span>“等等等等，我问的是停车场吧？谁问那个5号楼了？”
+          </blockquote>
+          <p class="src">【06】212345-卢沟桥街道反馈.m4a，00:03；业主指出问答不对应见【21】00:28</p>
+          <div class="row" style="margin-top:6px"><div class="k">补充事实</div><div class="v">业主多次要求出示产权证明，回复人员始终未予出示，并在通话中回避该问题；街道所称产权来源系“问首钢，首钢说是他们的产权”，非政府档案。</div></div>
+          <p class="via red">问的是“为什么封门堵路”，答的是“东区5号楼产权归属”，<b>属答非所问</b>；且即便产权确属开发商，依《民法典》第274条，建筑区划内道路属业主共有，产权不能替代业主共同决定程序（第278条）。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 8 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">1月17日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">8</span><span class="tag street">街道</span><span class="place">同一通电话内（街道工作组）</span></div>
+          <h2 class="h">理由第三版与第四版在同一通电话里先后出现：先说“海淀砍人事件为了安全”，随后又说“那块不是消防通道”</h2>
+          <div class="row"><div class="k">谁</div><div class="v">卢沟桥街道工作组 高女士</div></div>
+          <blockquote>
+            <span class="spk">前段（04:57）：</span>“咱们北京市公安局有一个文件……设置家长的等候区和隔离栏、隔离墩、减速带……”并称该处“那是消防门，我也核实过这个消防门”。<br>
+            <span class="spk">先说（06:05）：</span>“物业呢，因为咱们有一个那个是海淀是哪儿啊，有一个砍人事件完了呢，当时为了安全嘛……只是行人，也是为了咱们辖区的居民的安全。只是行人完了，那个没有通车。”<br>
+            <span class="spk">后说（22:17）：</span>“一个问题，您说那块儿是消防通道，然后我现在告知您，我们查询了那块不是消防通道。”<br>
+            <span class="spk">追问确认（22:23 / 23:10）：</span>“对，没有划线。”／再次确认“不是消防通道”。
+          </blockquote>
+          <p class="src">【08】且女士·海淀区砍人问题·高女士.m4a，04:57、06:05、22:17、22:23、23:10</p>
+          <div class="aud"><button class="spk-btn" type="button" data-src="audio/a1-jiedao-bushi.m4a">
+            <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <span>听“不是消防通道”原声</span><span class="dur">22:17–22:37</span>
+          </button><button class="spk-btn" type="button" data-src="audio/e1-haidian-wenjian.m4a">
+            <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+            <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+            <span>听“海淀砍人事件·市局文件”原话</span><span class="dur">04:55–06:35</span>
+          </button></div>
+          <p class="via red">同一通话、同一工作人员、同一处门，先后给出两种互不相容的定性。<b>“为了安全封门”与“该处不是消防通道”并存，意味着封门既无消防依据，也无治安依据</b>（派出所否认见下文对照表第一行）。</p>
+          <div class="alert">
+            <span class="t">此措施制造并加剧了它声称要防范的风险</span>
+            持刀伤人是人力所为，行为人徒步到达，唯一有效的防范是门禁与人员值守。而此处采取的是<b>封闭车道、只留单人小门、并在通道上加装地桩</b>，由此产生三项新的风险：<br>
+            ① <b>救援进不来</b>——消防车、救护车无法经该口进入，应急响应时间被拉长；<br>
+            ② <b>人出不去</b>——疏散路径由双向压缩为单向，居民只能绕行；<br>
+            ③ <b>绕行即穿越火源</b>——4号楼居民出门须经充电车棚一侧，而车棚正是本小区火灾风险最集中的部位。<br>
+            换言之，以防范治安风险为名采取的措施，把一个概率较低的治安风险，换成了一个一旦发生即难以自救的消防风险。<b>这一后果不是推测，而是由“车道封闭＋地桩＋车棚位置”三项现场事实直接推出。</b>
+          </div>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 9 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">1月19—20日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">9</span><span class="tag street">街道</span><span class="place">业主家人手机（非业主预留号码）</span></div>
+          <h2 class="h">街道办负责人未联系投诉人本人，径从第三方取得其家人电话，致电施压并上门</h2>
+          <div class="row"><div class="k">谁</div><div class="v">都姓人员，卢沟桥街道金通阳光苑工作组负责人（经街道党群工作办公室确认身份）</div></div>
+          <div class="row"><div class="k">关键情节</div><div class="v">① 投诉人本人始终未被联系；② 街道办负责人未向投诉人本人核实，而是<b>从第三方（物业登记台账）直接取得其家人的手机号</b>；③ 致电家人要求“配合开会”，并以“不配合就敲门”相威胁；④ 据业主陈述，<b>当晚即有人上门拍门</b>，与家人发生争执。</div></div>
+          <blockquote>
+            <span class="spk">12345工单原文（接线员照读）：</span>“您一直使用您的电话投诉，结果接到杜书记使用13371768896的电话联系到您家人了，让您家人配合开会，不配合就敲门儿。然后您从来没有预留过家人的电话，也未告知过门牌信息……”<br>
+            <span class="spk">派出所现场查明号码来源（11:31）：</span>“我刚问了人，说是从这个物业登记这儿。”<br>
+            <span class="spk">街道党群办（04:51 / 06:45）：</span>“这个姓都的……确实是啊，咱们金通阳光苑工作组的负责人。这个信息来源的这个事儿啊……物业那边有登记……他们要有这个居民台账的。”／“该批评批评，该教育教育，这您放心。”<br>
+            <span class="spk">业主陈述（关于上门，23:48）：</span>“我好好说的，说完当天晚上就上我们家拍门去，跟我们家人吵架去了。这书记干的事儿……沟通了半个月了，从来没露头儿，一露头儿就干这事儿。”
+          </blockquote>
+          <p class="src">【17】举报街道都书记非法查我家人电话并威胁.m4a，03:08；【19】付警官 11:31；【37】街道党组织办公室 04:51、06:45；【26】丰台区-房管局-王.m4a，23:48</p>
+          <p class="via red">三个环节各有录音支撑：<b>未联系本人 → 从第三方取得家人号码 → 致电施压并上门</b>。此节点性质已从“不作为”转为主动侵害投诉人权益。核实路径为物业台账查阅记录、该手机号实名信息、通话与出入记录。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 10 -->
+    <article class="node dept">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">1月20日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card dept">
+          <div><span class="no">10</span><span class="tag dept">部门核实</span><span class="place">北京市规划和自然资源委员会丰台分局</span></div>
+          <h2 class="h">规自委明确答复：被封闭的道路在小区红线以内，属小区内部配套道路，不属其他单位所有</h2>
+          <div class="row"><div class="k">谁</div><div class="v">北京市规划和自然资源委员会丰台分局 白姓工作人员</div></div>
+          <div class="row"><div class="k">答复要点</div><div class="v">该道路位于小区红线以内，系<b>小区内部配套道路</b>，属业主共有范围，<b>并非开发商或其他单位所有的独立道路</b>。此答复与节点7街道所称“产权归开发商”方向相反。</div></div>
+          <blockquote>
+            <span class="spk">05:27（先确认业主所问）：</span>“你的意思就是相当于物业把小区内的内部道路给封上了是吗？”<br>
+            <span class="spk">07:19（明确答复）：</span>“肯定是小区的对，因为他没出红线啊。”<br>
+            <span class="spk">口头承诺：</span>争取当日或次日寄出加盖分局公章的总平面图答复。
+          </blockquote>
+          <p class="src">【18】北京规划和自然委员会丰台分局.m4a，05:27、07:19、10:14</p>
+          <p class="via">规自委的答复否定了“该路属其他单位”的说法：红线以内的道路即小区内部配套道路，权属不因地下车位产权归属而改变。<b>此项目前为电话答复；加盖公章的书面答复是否已寄达，尚未核实，取得书面件前不宜作为官方结论引用。</b></p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 11 -->
+    <article class="node dept">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">2月20日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card dept">
+          <div><span class="no">11</span><span class="tag dept">部门核实</span><span class="place">消防救援机构（现场查看＋核对规划图与验收图）</span></div>
+          <h2 class="h">消防核对图纸后明确：图纸上没有“消防车道”四个字；要求取消门上的标牌，要求大门不得上锁</h2>
+          <div class="row"><div class="k">谁</div><div class="v">消防救援机构 刘姓执勤人员（该段22分50秒录音为全案关键反证）</div></div>
+          <blockquote>
+            <span class="spk">02:04：</span>“您提供这份图纸啊，包括他们提供的这个规划的图纸啊，以及他们验收的时候这个图纸我们都查看过了……确实在图纸上没有标注……没有消防车道这4个字儿在图纸上没有显示这4个字儿。”<br>
+            <span class="spk">03:08：</span>“我们也没有界定这个消防车道的权限，但是我们……只是能够根据相关的图纸或者规划来看，来说你到底是哪条消防车道。”<br>
+            <span class="spk">04:01：</span>“你们原来的那个……写着消防车道那个标牌啊，给取消了。”（04:24确认“已经给他取消了”）<br>
+            <span class="spk">04:34：</span>“同时我们要求那个大门不能锁……把锁去除啊……随时能够打开，谁都能打开，谁都能推开。”<br>
+            <span class="spk">关于车棚（00:32起）：</span>“确实存在一定的风险……我们呀已经要求他对于这个电动自行车充电这个位置进行改造……用防火墙把这个电动自行车包上。”
+          </blockquote>
+          <p class="src">【38】20250220-与消防队姓刘的执勤人员沟通处理结果.m4a，00:32、02:04、03:08、04:01、04:34</p>
+          <p class="via red">此节点同时否定两处：<b>①</b> 街道书面答复所称“消防门保持封闭状态是符合安全标准的举措”（见下方对照表）；<b>②</b> 门体张贴“消防通道”标识所体现的自认。消防机构“随时能够打开”的要求，与“专人保管钥匙24小时待命”的答复亦相冲突。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 12 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">3月21日<br><span style="font-size:11px;font-weight:400;color:#8395a9">14:19</span></span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">12</span><span class="tag street">街道</span><span class="place">居民会议（街道组织，面向居民公开召开）</span></div>
+          <h2 class="h">会上把门的“锁”与“关”交由居民表态：“你们要觉得锁咱就再锁上”</h2>
+          <div class="row"><div class="k">谁</div><div class="v">会议主持人（会上自称书记；身份以会议通知、签到表、录音核实为准）</div></div>
+          <blockquote>
+            <span class="spk">31:14：</span>“但是如果我拆那个桩子，有可能消防车就进不来。”<br>
+            <span class="spk">35:00：</span>“就是这个门儿，姐姐到底锁还是关，再给你们大家一次机会。你们要觉得锁咱就再锁上。”
+          </blockquote>
+          <p class="src">【42】3月21日 14点19分.mp3，31:14、35:00（该段时间点系依据分析底稿定位，正式对外引用前建议按段号回听复核）</p>
+          <p class="via red">这段表述显示：“上锁”在会上被作为可由居民表态选择的方案提出，而非不可变更的技术必需；同一系列会议在次日又承诺“开门、安门禁、再也不锁”（见节点13），两次表态方向相反。</p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 13 -->
+    <article class="node street">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">3月22日</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card street">
+          <div><span class="no">13</span><span class="tag street">街道</span><span class="place">居民会议（同一系列会议）</span></div>
+          <h2 class="h">承诺“开门、安门禁、锁再也不锁、争取这周就干”；同时自认“没有消防通道规划图、没有大门的规划图”</h2>
+          <div class="row"><div class="k">谁</div><div class="v">同一会议主持人</div></div>
+          <blockquote>
+            <span class="spk">10:11：</span>“我说下周我们给物业说，刚才我给物业说了，把那个门给你们不锁了，给你们开了没问题。”<br>
+            <span class="spk">21:11：</span>“我先把门禁安上，只要安了门禁，那个锁我都给你们打开……那个锁就后再也不锁了。”<br>
+            <span class="spk">26:39：</span>“第一个给你们开锁，第二个给你们安门禁……我争取这周就给你们干。”<br>
+            <span class="spk">08:16（自认）：</span>“第一你看一看，一没有消防通道规划图对不对？第二，它没有大门的规划图……连个门都没有。”<br>
+            <span class="spk">05:22、06:32（自认）：</span>“那是消防车必经之路……就那个地方是消防车也是疏散广场”；“那个门儿不锁，如果锁的话，肯定你们没有钥匙，对你们安全造成了一定的危害。”
+          </blockquote>
+          <p class="src">【43】王静与工作组人员沟通.m4a，05:22、06:32、08:16、10:11、21:11、26:39</p>
+          <p class="via">三项自认（无规划图／该处为消防车必经之路与疏散广场／锁门对无钥匙业主构成安全危害）均由会议主持人本人作出，恰好指向业主核心主张。<b>承诺的兑现情况见节点14。</b></p>
+        </div>
+      </div>
+    </article>
+    <div class="arrow"></div>
+
+    <!-- 14 -->
+    <article class="node prop">
+      <div class="tl-date"><span class="y">2025年</span><span class="m">7月</span></div>
+      <div class="tl-dot"><i></i></div>
+      <div>
+        <div class="tl-card prop">
+          <div><span class="no">14</span><span class="tag prop">物业</span><span class="place">小区出入口／地面停车场</span></div>
+          <h2 class="h">承诺期满四个月：门未开、门禁未安，业主车辆仍被道闸与收费环节限制出入</h2>
+          <div class="row"><div class="k">现状</div><div class="v">业主车辆仍受道闸、扫码及收费环节限制；地面停车场出入口曾标有“天汇易通内部停车场”字样。</div></div>
+          <div class="row"><div class="k">收费依据</div><div class="v">物业仅能出示“申请表”“报备纸”，无审批文件；物业方自认“我们是报备纸啊，不是审批”，并称收费方案以“街道监督下的入户调研”替代业主表决。</div></div>
+          <blockquote>
+            <span class="spk">物业方（【54】00:35）：</span>“这个26号院没有房产证，目前没下来。”<br>
+            <span class="spk">收费价格（民警转述）：</span>地面摇号200元/月，地下450—600元/月。
+          </blockquote>
+          <p class="src">【50】新录音41.m4a 07:26、08:25、12:10；【54】新录音45.m4a 00:35；【55】03:12、05:32</p>
+          <p class="via red">承诺与现状的对照即“未兑现”的证明：<b>录音（承诺）＋现状照片（门仍锁、无门禁）两项即可闭环</b>。此项同时说明，封门与停车收费在结果上互为支撑。</p>
+        </div>
+      </div>
+    </article>
+
+  </div><!-- /tl -->
+
+  <!-- ================= 二、理由轮换 ================= -->
+  <h2 class="sec">二、同一处铁门：说法轮换对照</h2>
+  <p class="secnote">下图将五种说法与各自被推翻的依据并列：上排为街道方面的说法，下排为业主核实所得，全部汇聚于同一处铁门。</p>
+
+  <div style="margin:6px 0 22px;padding:8px 10px 4px;background:#fbfcfe;border:1px solid #e2e8f0;border-radius:5px;">
+    <svg viewBox="0 0 1200 484" width="100%" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+      <defs>
+        <marker id="arw" markerWidth="9" markerHeight="9" refX="7.5" refY="4.5" orient="auto">
+          <path d="M0,0 L8,4.5 L0,9 z" fill="#8fa3ba"/>
+        </marker>
+        <marker id="arwRed" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto">
+          <path d="M0,0 L7,4 L0,8 z" fill="#c0392b"/>
+        </marker>
+      </defs>
+
+      <text x="21" y="18" font-size="11.5" fill="#7c8a9a">说法一</text>
+      <text x="257" y="18" font-size="11.5" fill="#7c8a9a">说法二</text>
+      <text x="493" y="18" font-size="11.5" fill="#7c8a9a">说法三</text>
+      <text x="729" y="18" font-size="11.5" fill="#7c8a9a">说法四</text>
+      <text x="965" y="18" font-size="11.5" fill="#7c8a9a">说法五</text>
+
+      <!-- 说法一 -->
+      <g>
+        <rect x="21" y="30" width="214" height="104" rx="4" fill="#ffffff" stroke="#c3d0e2"/>
+        <rect x="21" y="30" width="4" height="104" rx="2" fill="#1e40af"/>
+        <text x="37" y="50" font-size="10" fill="#7c8a9a">2024年10月 · 12345书面答复</text>
+        <text x="37" y="72" font-size="12" font-weight="700" fill="#1b2a3d">派出所要求封闭</text>
+        <text x="37" y="92" font-size="10.5" fill="#40506a">「经丰台区教育局属地派出所</text>
+        <text x="37" y="109" font-size="10.5" fill="#40506a">协调物业将该区域实施</text>
+        <text x="37" y="126" font-size="10.5" fill="#40506a">封闭式管理」</text>
+
+        <rect x="21" y="160" width="214" height="100" rx="4" fill="#fdf6f4" stroke="#e8c4bc"/>
+        <text x="37" y="180" font-size="10" font-weight="700" fill="#b42318">核实结果</text>
+        <text x="37" y="200" font-size="10.5" fill="#6b3a32">派出所副所长李伟：</text>
+        <text x="37" y="217" font-size="10.5" fill="#6b3a32">「我们也没有权利</text>
+        <text x="37" y="234" font-size="10.5" fill="#6b3a32">说把这路给人封了」</text>
+        <text x="37" y="251" font-size="10.5" fill="#6b3a32">并同意被业主引用对质</text>
+      </g>
+
+      <!-- 说法二 -->
+      <g>
+        <rect x="257" y="30" width="214" height="104" rx="4" fill="#ffffff" stroke="#c3d0e2"/>
+        <rect x="257" y="30" width="4" height="104" rx="2" fill="#1e40af"/>
+        <text x="273" y="50" font-size="10" fill="#7c8a9a">2025年1月10日 · 电话答复</text>
+        <text x="273" y="72" font-size="12" font-weight="700" fill="#1b2a3d">产权归小区开发商</text>
+        <text x="273" y="92" font-size="10.5" fill="#40506a">「市民反映的情况为</text>
+        <text x="273" y="109" font-size="10.5" fill="#40506a">5号楼建设性质问题</text>
+        <text x="273" y="126" font-size="10.5" fill="#40506a">……产权方为小区开发商」</text>
+
+        <rect x="257" y="160" width="214" height="100" rx="4" fill="#fdf6f4" stroke="#e8c4bc"/>
+        <text x="273" y="180" font-size="10" font-weight="700" fill="#b42318">核实结果</text>
+        <text x="273" y="200" font-size="10.5" fill="#6b3a32">问的是「为什么封门堵路」，</text>
+        <text x="273" y="217" font-size="10.5" fill="#6b3a32">答的是5号楼产权；</text>
+        <text x="273" y="234" font-size="10.5" fill="#6b3a32">多次要求出示产权证明，</text>
+        <text x="273" y="251" font-size="10.5" fill="#6b3a32">始终未出示</text>
+      </g>
+
+      <!-- 说法三 -->
+      <g>
+        <rect x="493" y="30" width="214" height="104" rx="4" fill="#ffffff" stroke="#c3d0e2"/>
+        <rect x="493" y="30" width="4" height="104" rx="2" fill="#1e40af"/>
+        <text x="509" y="50" font-size="10" fill="#7c8a9a">2025年1月17日 · 电话</text>
+        <text x="509" y="72" font-size="12" font-weight="700" fill="#1b2a3d">因海淀砍人事件封门</text>
+        <text x="509" y="92" font-size="10.5" fill="#40506a">「有一个砍人事件完了呢，</text>
+        <text x="509" y="109" font-size="10.5" fill="#40506a">当时为了安全嘛……</text>
+        <text x="509" y="126" font-size="10.5" fill="#40506a">只是行人，那个没有通车」</text>
+
+        <rect x="493" y="160" width="214" height="100" rx="4" fill="#fdf6f4" stroke="#e8c4bc"/>
+        <text x="509" y="180" font-size="10" font-weight="700" fill="#b42318">核实结果</text>
+        <text x="509" y="200" font-size="10.5" fill="#6b3a32">案发地跨区，相距约20公里；</text>
+        <text x="509" y="217" font-size="10.5" fill="#6b3a32">持刀者徒步到达，禁车不能</text>
+        <text x="509" y="234" font-size="10.5" fill="#6b3a32">防人；封车道加地桩，消防</text>
+        <text x="509" y="251" font-size="10.5" fill="#6b3a32">车进不来——反而更不安全</text>
+      </g>
+
+      <!-- 说法四 -->
+      <g>
+        <rect x="729" y="30" width="214" height="104" rx="4" fill="#ffffff" stroke="#c3d0e2"/>
+        <rect x="729" y="30" width="4" height="104" rx="2" fill="#1e40af"/>
+        <text x="745" y="50" font-size="10" fill="#7c8a9a">2025年1月17日 · 同一通电话（后半）</text>
+        <text x="745" y="72" font-size="12" font-weight="700" fill="#1b2a3d">「那块不是消防通道」</text>
+        <text x="745" y="92" font-size="10.5" fill="#40506a">「您说那块儿是消防通道，我</text>
+        <text x="745" y="109" font-size="10.5" fill="#40506a">现在告知您，我们查询了那块</text>
+        <text x="745" y="126" font-size="10.5" fill="#40506a">不是消防通道」「没有划线」</text>
+
+        <rect x="729" y="160" width="214" height="100" rx="4" fill="#fdf6f4" stroke="#e8c4bc"/>
+        <text x="745" y="180" font-size="10" font-weight="700" fill="#b42318">核实结果</text>
+        <text x="745" y="200" font-size="10.5" fill="#6b3a32">与前项及书面答复相反；</text>
+        <text x="745" y="217" font-size="10.5" fill="#6b3a32">物业安全主管亦称「不是」；</text>
+        <text x="745" y="234" font-size="10.5" fill="#6b3a32">而门体上现贴有「消防通道」</text>
+        <text x="745" y="251" font-size="10.5" fill="#6b3a32">标识——实施方自认属消防通道</text>
+      </g>
+
+      <!-- 说法五 -->
+      <g>
+        <rect x="965" y="30" width="214" height="104" rx="4" fill="#ffffff" stroke="#c3d0e2"/>
+        <rect x="965" y="30" width="4" height="104" rx="2" fill="#1e40af"/>
+        <text x="981" y="50" font-size="10" fill="#7c8a9a">同期 · 街道书面答复</text>
+        <text x="981" y="72" font-size="12" font-weight="700" fill="#1b2a3d">消防门封闭符合标准</text>
+        <text x="981" y="92" font-size="10.5" fill="#40506a">「消防门保持封闭状态是</text>
+        <text x="981" y="109" font-size="10.5" fill="#40506a">符合安全标准的举措」</text>
+        <text x="981" y="126" font-size="10.5" fill="#40506a">专人保管钥匙24小时待命</text>
+
+        <rect x="965" y="160" width="214" height="100" rx="4" fill="#fdf6f4" stroke="#e8c4bc"/>
+        <text x="981" y="180" font-size="10" font-weight="700" fill="#b42318">核实结果</text>
+        <text x="981" y="200" font-size="10.5" fill="#6b3a32">消防核对规划图、验收图：</text>
+        <text x="981" y="217" font-size="10.5" fill="#6b3a32">「没有消防车道这4个字」</text>
+        <text x="981" y="234" font-size="10.5" fill="#6b3a32">要求取消门上的标牌、</text>
+        <text x="981" y="251" font-size="10.5" fill="#6b3a32">大门不得上锁</text>
+      </g>
+
+      <!-- 汇聚线 -->
+      <line x1="128" y1="260" x2="128" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="364" y1="260" x2="364" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="600" y1="260" x2="600" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="836" y1="260" x2="836" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="1072" y1="260" x2="1072" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="128" y1="292" x2="1072" y2="292" stroke="#c9b0aa" stroke-width="1.2"/>
+      <line x1="600" y1="292" x2="600" y2="326" stroke="#8fa3ba" stroke-width="1.6" marker-end="url(#arw)"/>
+
+      <!-- 中心 -->
+      <rect x="340" y="332" width="520" height="112" rx="6" fill="#1e3a5f"/>
+      <text x="600" y="360" font-size="14.5" font-weight="700" fill="#ffffff" text-anchor="middle">同一处铁门 · 小区中部公共道路</text>
+      <text x="600" y="384" font-size="11" fill="#c8d8ea" text-anchor="middle">2024年12月关闭上锁，仅留一处单人通行小门，持续至今近两年</text>
+      <text x="600" y="406" font-size="11" fill="#c8d8ea" text-anchor="middle">经审定设计图中无此门；小区对外连通口由三处减为一处</text>
+      <text x="600" y="428" font-size="10.5" fill="#9fb6cf" text-anchor="middle">五项表述分指派出所、产权、治安、消防通道属性、消防标准，彼此难以同时成立</text>
+
+      <text x="600" y="470" font-size="10.5" fill="#8a97a8" text-anchor="middle">注：说法四（口头）称该处“不是消防通道”“没有划线”，说法五（书面）则称其为“消防门”并要求专人保管钥匙——同一主体的口头与书面定性相反。</text>
+    </svg>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:88px">时间</th>
+        <th style="width:168px">提出方与场合</th>
+        <th style="width:400px">理由版本（原话摘录）</th>
+        <th style="width:330px">被援引方／业主核实结果</th>
+        <th>冲突点</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">2024.10</td>
+        <td>街道 · 12345书面答复</td>
+        <td class="claim">“经丰台区教育局属地派出所协调物业将该区域实施封闭式管理。”<div class="src" style="margin-top:4px">【20】00:10</div></td>
+        <td class="resp">岳各庄派出所副所长李伟：“我们是对这个门前的这个防冲撞措施，以及门外的这个家长等候区的这个安全措施进行加固。”“这确实跟我们没有什么关系……我们也没有权利说把这路给人封了。”并同意业主拿此段与街道对质。<div class="src" style="margin-top:4px">【16】07:21、08:57、09:51</div></td>
+        <td>被援引单位否认；派出所实际实施的仅为幼儿园门口围栏与石墩加固，未涉及整条道路；答复所称“已打电话核实”的过程无从成立。</td>
+      </tr>
+      <tr>
+        <td class="t">2025.1.10</td>
+        <td>街道产业办 · 电话答复</td>
+        <td class="claim">“市民反映的情况为金通阳光苑小区5号楼建设性质问题……产权方为小区开发商。”<div class="src" style="margin-top:4px">【06】00:03</div></td>
+        <td class="resp">业主问的是停车场、封门堵路，答复为5号楼产权；业主多次要求出示产权证明，对方始终未出示并回避该问题。<div class="src" style="margin-top:4px">【21】00:28；【05】13:44</div></td>
+        <td>答非所问；且《民法典》第274条规定建筑区划内道路属业主共有，产权主张不能替代第278条业主共同决定程序。</td>
+      </tr>
+      <tr>
+        <td class="t">2025.1.17</td>
+        <td>街道工作组 高女士 · 电话</td>
+        <td class="claim">“因为咱们有一个那个是海淀是哪儿啊，有一个砍人事件完了呢，当时为了安全嘛……只是行人，那个没有通车。”<div class="src" style="margin-top:4px">【08】06:05</div></td>
+        <td class="resp">该事件发生于海淀区万柳地区，与本小区分属不同行政区、不同学区、不同派出所辖区，相距约二十公里；街道未说明任何关联依据。<div class="src" style="margin-top:4px">海淀分局通报，2024.10.28</div></td>
+        <td>地域关联未建立；持刀伤人为人力所为、行为人徒步到达，措施却是禁车而留人员小门，防范对象与措施错位；<b>封闭车道并加装地桩后，消防车与救护车无法经该口进入，反而制造并加剧了更难自救的风险。</b></td>
+      </tr>
+      <tr>
+        <td class="t">同期</td>
+        <td>街道 · 书面答复</td>
+        <td class="claim">“消防门保持封闭状态是符合安全标准的举措。目前有专人负责保管消防门钥匙，并且要求其24小时随时待命……”<div class="src" style="margin-top:4px">【30】00:18（工作组赵女士逐字重念）</div></td>
+        <td class="resp">消防救援机构刘姓人员核对图纸后：“图纸上没有标注……没有‘消防车道’这4个字儿。”要求“把写着消防车道那个标牌给取消了”，并“要求那个大门不能锁……随时能够打开”。<div class="src" style="margin-top:4px">【38】02:04、04:01、04:34</div></td>
+        <td>街道以“消防门”定性的部位，消防机构认定图纸中不存在；且街道无法说明该“消防门”的具体位置，其核实来源自述为“开发商”。</td>
+      </tr>
+      <tr>
+        <td class="t">2025.1.17</td>
+        <td>街道工作组 高女士 · 同一通电话</td>
+        <td class="claim">“您说那块儿是消防通道，然后我现在告知您，我们查询了那块不是消防通道。”“对，没有划线。”<div class="src" style="margin-top:4px">【08】22:17、22:23、23:10</div></td>
+        <td class="resp">此项与上一行“消防门”书面答复直接冲突；物业安全主管亦称该处“不是”消防通道。<div class="src" style="margin-top:4px">【41】07:00、07:52</div></td>
+        <td>同一主体对同一部位，书面说“消防门”、口头说“不是消防通道”，前后相反。</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ================= 三、不是消防通道 ================= -->
+  <h2 class="sec">三、“不是消防通道”——各方原话</h2>
+  <p class="secnote">该处是否属于消防通道，不是业主的判断。以下四方分别作出表述，指向同一结论，且各自有录音可回放。</p>
+
+  <div class="grid2">
+    <div class="conf">
+      <div class="who">街道工作组 高女士（2025年1月17日 · 电话）</div>
+      <div class="q">“一个问题，您说那块儿是消防通道，然后我现在告知您，<b>我们查询了那块不是消防通道</b>。”<br>“大铁门那块儿不是消防通道。”（22:28）<br>“不是消防通道。”（23:10）</div>
+      <div class="s">【08】且女士·海淀区砍人问题·高女士.m4a，22:17、22:28、23:10　｜　同一通电话 06:05 又曾以“海淀砍人、为了安全”解释封门。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/a1-jiedao-bushi.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>播放原声</span><span class="dur">22:17–22:37</span>
+      </button></div>
+    </div>
+    <div class="conf">
+      <div class="who">物业安全主管（当面 · 现场）</div>
+      <div class="q">前台问：“咱们那个就那个4号楼跟5号楼中间那个地桩那块儿是消防通道吗？”<br>安全主管答：<b>“不是。”</b>（07:00）<br>07:52 追问再次确认，答“对”。</div>
+      <div class="s">【41】物业，保安队长，安全主管.m4a，07:00、07:52　｜　实施封闭一方的工作人员，当面否认该处属消防通道。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/a2-wuye-bushi.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>播放原声</span><span class="dur">06:56–07:26</span>
+      </button></div>
+    </div>
+    <div class="conf">
+      <div class="who">消防救援机构 刘姓执勤人员（2025年2月20日 · 核对规划图与验收图后）</div>
+      <div class="q">“确实在图纸上没有标注……<b>没有消防车道这4个字儿</b>。”<br>“我们也没有界定这个消防车道的权限。”<br>要求“把写着消防车道那个标牌给取消了”；“大门不能锁……随时能够打开”。</div>
+      <div class="s">【38】20250220-与消防队姓刘的执勤人员沟通处理结果.m4a，02:04、03:08、04:01、04:34</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/a3-xiaofang-meiyou.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>播放原声</span><span class="dur">01:50–02:36</span>
+      </button></div>
+    </div>
+    <div class="conf">
+      <div class="who">规自委丰台分局 白姓工作人员（2025年1月20日 · 电话）</div>
+      <div class="q">“你的意思就是相当于物业把小区内的内部道路给封上了是吗？”（05:27）<br><b>“肯定是小区的对，因为他没出红线啊。”</b>（07:19）</div>
+      <div class="s">【18】北京规划和自然委员会丰台分局.m4a，05:27、07:19　｜　红线以内即小区内部配套道路，不属其他单位所有。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/a4-guiziwei-hongxian.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>播放原声</span><span class="dur">07:06–07:32</span>
+      </button></div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:11px 15px;background:#f8fafc;border:1px dashed #b9cde4;border-radius:3px;font-size:12.5px;color:#3d4d5f;line-height:1.8">
+    <b style="color:#1e3a5f">四方表述的共同点：</b>没有一方认定该处是消防通道。其中街道与物业的上述表述，与其以“消防通道”为由封门、并在门体张贴“消防通道”标识的做法，方向完全相反——同一主体对同一部位，对外解释时称消防通道，对内核实时称不是。
+  </div>
+
+  <!-- ================= 四、违法建设 ================= -->
+  <h2 class="sec">四、该门是否属违法建设</h2>
+  <p class="secnote">12345 的答复将该铁门认定为违法建设；属地综合行政执法队在同一事项上又明确表示“不给认违建”。两种口径并存，至今未见任何一份书面认定文书。以下各方表述均有原文或录音，可按时间点回放。</p>
+
+  <div class="grid2">
+    <div class="conf">
+      <div class="who">12345 市民热线答复（载明属地街道办理结果）</div>
+      <div class="q">答复将该处铁门认定为<b>违法建设</b>。就现有材料看，这是唯一一份将该门定性为违建的书面答复。</div>
+      <div class="s">12345 工单答复，工单编号与答复原文截图见附件八　｜　系书面载体，可与执法队的口头表态直接对照。<br>所附音频系<b>同一街道系统内的另一条记录</b>：分中心人员当场读取系统内容，称“已经确认是物业强占了”（09:15）。该答复本身无通话录音。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/d1-jiedao-qiangzhan.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>听街道系统内记录原声</span><span class="dur">09:03–09:32</span>
+      </button></div>
+    </div>
+    <div class="conf">
+      <div class="who">卢沟桥街道综合行政执法队（2025年1月24日 · 电话）</div>
+      <div class="q">业主问：“规划图上没有这个门，现在多了这个门，是不给认定是否违建是吗？”<br>执法队答：<b>“他这个门儿的话是不给认违建的啊。”</b>（07:19）</div>
+      <div class="s">【36】与丰台区-卢沟桥街道-执法队通话.m4a，07:19、07:38</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/b1-zhifadui-buren.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>听“不给认违建”原声</span><span class="dur">07:17–07:52</span>
+      </button></div>
+    </div>
+    <div class="conf">
+      <div class="who">同一执法队 · 同一通电话（关于该门的存在时间）</div>
+      <div class="q">“这个门儿早在2023年8月13日就已存在，然后也开放通行。”<br>业主当场否认：“24年12月初，他封的这个门上的锁，在这之前我没见过那儿有门。”（13:48）</div>
+      <div class="s">【36】00:00、13:48　｜　此日期为执法队单方主张，与“2024年上半年设门”的业主陈述冲突，须以照片与施工档案核实。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/b2-zhifadui-2023.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>播放原声</span><span class="dur">00:00–00:22</span>
+      </button></div>
+    </div>
+    <div class="conf" style="grid-column:1/-1">
+      <div class="who">消防救援机构 刘姓执勤人员（2025年2月20日 · 就在这同一通电话中）</div>
+      <div class="q">业主指出地桩系新钉、属违建，消防答：<b>“这个您说是违建，这个应该您去找城管反映。”</b>（10:49）随后明确该处<b>“绝对不是”</b>消防通道（10:58）。</div>
+      <div class="s">【38】20250220-与消防队姓刘的执勤人员沟通处理结果.m4a，10:49、10:58　｜　同一通电话内，消防先否认该处是消防通道，再把违建认定推给城管——认定主体在街道、城管、消防之间循环。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/c1-xiaofang-weijian.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>听“违建去找城管反映”原声</span><span class="dur">10:44–11:06</span>
+      </button></div>
+    </div>
+  </div>
+
+  <div class="alert">
+    <span class="t">三种口径并存，指向同一个未被回答的问题</span>
+    ① <b>12345 答复认定违建</b>——属书面答复，工单在系统内，可依职权调取；<br>
+    ② <b>属地执法队口头不予认定</b>——且给出的理由是“门在2023年8月已存在、已开放通行”，即以存在时间与通行状态替代规划许可的审查；<br>
+    ③ <b>消防救援机构把认定推给城管</b>——同一通电话里先否认该处是消防通道，再说“您说是违建，这个应该您去找城管反映”，认定权再次被推走。<br>
+    三种口径合起来的后果是：该门已被书面认定为违建，但至今未见任何一份立案、书面认定或者责令停止建设、拆除的文书；2025年3月21日的公开会议上，主持人仍在征询“到底锁还是关”“你们要觉得锁咱就再锁上”。<b>请调取该门是否曾立案、有无现场检查记录与书面认定结论。</b>
+  </div>
+
+  <!-- ================= 四、关键自认 ================= -->
+  <h2 class="sec">五、其他关键自认</h2>
+  <p class="secnote">以下四项与前述“是否消防通道”“是否违建”两项认定无关，但同样属于主体自身的陈述，可直接与行政机关答复对质。</p>
+
+  <div class="grid2">
+    <div class="conf">
+      <div class="who">街道12345分中心回访人员（系统内录入结论）</div>
+      <div class="q">“就只写了一句这个已经确认是物业强占了，就没有写别的了。我这边儿看到的啊。”</div>
+      <div class="s">【28】卢沟桥街道不知道人员回复.m4a，09:15　｜　系街道工作人员现场读取本系统记录，证明力高于业主转述。</div>
+    </div>
+    <div class="conf">
+      <div class="who">岳各庄派出所副所长 李伟（实名，同意被引用）</div>
+      <div class="q">“这确实跟我们没有什么关系……我们也没有权利说把这路给人封了，你明白吧。”</div>
+      <div class="s">【16】07:21、08:57、09:51　｜　直接对质街道“经派出所协调封闭”的书面答复。</div>
+    </div>
+    <div class="conf">
+      <div class="who">街道工作组 高女士（就权属）</div>
+      <div class="q">“肯定是全体所有。没毛病。”／“他有一个公共账户，公共收益……他物业或者说其他人也拿不走。”</div>
+      <div class="s">【05】20:17、24:11　｜　口头确权，可与规自委“没出红线”并列表述。</div>
+    </div>
+    <div class="conf">
+      <div class="who">会议主持人（就规划图，2025年3月22日）</div>
+      <div class="q">“第一你看一看，一没有消防通道规划图对不对？第二，它没有大门的规划图……连个门都没有。”</div>
+      <div class="s">【43】08:16　｜　会议主持人本人自认该处既无消防通道规划图，亦无大门的规划图。</div>
+      <div class="aud"><button class="spk-btn" type="button" data-src="audio/c2-shuji-meiyou-men.m4a">
+        <svg class="ico i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+        <svg class="ico i-pause" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+        <span>听“连个门都没有”原声</span><span class="dur">08:16–08:36</span>
+      </button></div>
+    </div>
+  </div>
+
+  <!-- ================= 页脚 ================= -->
+  <footer>
+    <h3>读图说明</h3>
+    <ol>
+      <li><b>可验证事实部分：</b>图中所有引号内的文字，均为录音转写或12345工单原文摘录，标注了段号与时间点，可回放逐句核对；海淀持刀伤人案的时间、地点与伤情，来自北京市公安局海淀分局2024年10月28日通报。</li>
+      <li><b>属单方主张、尚待核实：</b>节点1执法队所称“2023年8月13日已存在”；节点10规自委口头答复（盖章书面件是否寄达未核实）；节点12、13会议主持人的具体职务身份；第四节所引12345答复中“认定违建”的表述，其工单编号与答复原文截图（附件八）待补录。</li>
+      <li><b>时间点复核提示：</b>图中引文时间点依据录音转写稿定位。经逐段复核，分析底稿中的个别时间点存在偏移（如【46】“保安负责收费”应为05:49、【50】“不能胡乱收费”应为13:33、【55】收费价格应为03:12），本图已按复核结果修正；【42】段31:14、35:00两处尚未独立复核，正式对外引用前请按段号回听确认。</li>
+      <li><b>属编制者判断而非事实：</b>“四项理由互不相容”系逻辑定性；节点14“封门与停车收费互为支撑”系由结果推得的判断，无直接书证；“证明力由高到低”的排序为主观评估。上述判断均未写入对外文书的定性部分。</li>
+      <li><b>语音片段：</b>带喇叭标记的卡片可点击播放对应录音原声，片段取自业主保存的原始通话录音，按问题截取，未作剪辑拼接，每段 20—100 秒；源文件及完整转写稿见附件十一。音频存于本文件同目录的 <b>audio</b> 文件夹，拷贝或发送本文件时须一并携带；打印版不含音频。各片段对应关系：a1 街道否认消防通道（【08】22:17—22:37）、a2 物业安全主管否认（【41】06:56—07:26）、a3 消防核对图纸（【38】01:50—02:36）、a4 规自委红线答复（【18】07:06—07:32）、b1 执法队不予认定违建（【36】07:17—07:52）、b2 执法队称2023年8月已存在（【36】00:00—00:22）、c1 消防称违建该找城管并否认消防通道（【38】10:44—11:06）、c2 会议主持人自认没有大门的规划图（【43】08:16—08:36）、d1 街道系统内记录“已经确认是物业强占”（【28】09:03—09:32）、e1 街道称因海淀砍人事件与市公安局文件封门只走人（【08】04:55—06:35）。</li>
+    </ol>
+    <div class="sep"></div>
+    <h3>引用出处（MLA 格式）</h3>
+    <ol>
+      <li>金通阳光苑小区业主. 《12345-举报物业-录音全文转录-按分钟分段》. 2024年12月—2025年7月, 录音转写稿, 共57段、约24.1万字. 段号与时间点见图中“【NN】分:秒”标注.</li>
+      <li>金通阳光苑小区业主. 《金通阳光苑-录音深度分析与观点证据拆解》. 2026年11月5日, 内部工作底稿.</li>
+      <li>北京市公安局海淀分局. 警情通报（海淀区万泉庄路持刀伤人案）. 2024年10月28日.</li>
+      <li>全国人民代表大会. 《中华人民共和国民法典》. 2020年, 第274条、第278条、第286条.</li>
+      <li>全国人民代表大会常务委员会. 《中华人民共和国消防法》. 2021年修正, 第28条、第53条、第54条、第60条.</li>
+      <li>中华人民共和国住房和城乡建设部. 《建筑设计防火规范》（GB 50016—2014，2018年版）. 第5.5.25条、第7.1.8条、第7.1.9条.</li>
+    </ol>
+    <div class="sep"></div>
+    <div style="color:#7c8a9a">本图仅供内部梳理与随件说明使用。图中所有结论性表述，最终认定权在纪检监察机关及相关职能部门。</div>
+  </footer>
+
+</div>
+<script>
+(function () {
+  var current = null; // {audio, btn}
+  function stop() {
+    if (!current) return;
+    current.audio.pause();
+    current.audio.currentTime = 0;
+    current.btn.classList.remove('playing');
+    current = null;
+  }
+  document.querySelectorAll('.spk-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = btn.getAttribute('data-src');
+      if (current && current.btn === btn) { stop(); return; }
+      stop();
+      var audio = new Audio(src);
+      audio.preload = 'auto';
+      audio.addEventListener('ended', function () {
+        btn.classList.remove('playing');
+        if (current && current.audio === audio) current = null;
+      });
+      audio.addEventListener('error', function () {
+        btn.classList.remove('playing');
+        btn.classList.add('err');
+        btn.title = '音频未能加载：请确认 audio 文件夹与本文件在同一目录';
+        if (current && current.audio === audio) current = null;
+      });
+      audio.play().then(function () {
+        btn.classList.add('playing');
+        current = { audio: audio, btn: btn };
+      }).catch(function () {
+        btn.classList.add('err');
+        btn.title = '浏览器阻止了播放，请再点击一次';
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
